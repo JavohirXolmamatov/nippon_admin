@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isloading: false,
+  isLoading: false,
   loggedIn: false,
   user: [],
   error: null,
@@ -11,21 +11,21 @@ export const authAdminSlice = createSlice({
   initialState,
   reducers: {
     userLoginStart: (state) => {
-      state.isloading = true;
+      state.isLoading = true;
       state.error = null;
       state.user = [];
     },
     userLoginSuccess: (state, actions) => {
-      state.isloading = false;
+      state.isLoading = false;
       state.loggedIn = true;
       state.user = actions.payload;
     },
     userLoginFailure: (state, actions) => {
-      state.isloading = false;
+      state.isLoading = false;
       state.error = actions.payload;
     },
     userLogout: (state) => {
-      state.isloading = false;
+      state.isLoading = false;
       state.loggedIn = false;
       state.user = [];
       state.error = null;

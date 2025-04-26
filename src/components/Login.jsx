@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Flex } from "antd";
+import { Button, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   userLoginFailure,
@@ -72,6 +72,7 @@ function Login() {
         className="bg-white w-[360px] h-[360px] flex flex-col justify-center items-center rounded-xl"
         onSubmitCapture={onsubmit}
       >
+        <h1 className="text-3xl">Login</h1>
         <Form.Item
           name="username"
           rules={[{ required: true, message: "Please input your Username!" }]}
