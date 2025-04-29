@@ -28,7 +28,7 @@ function Main() {
   };
 
   return (
-    <div className="flex bg-black/10">
+    <div className="flex bg-black/10 relative">
       <nav className="w-[15%] bg-[#1E2939] h-screen flex flex-col justify-start items-center gap-6 text-white font-medium py-10">
         <img
           src={navLogo}
@@ -50,7 +50,7 @@ function Main() {
           </NavLink>
         ))}
       </nav>
-      <main className="w-[85%] h-screen px-20 py-6">
+      <main className="w-[85%] h-screen px-4 py-6">
         <div className="text-end my-8 ">
           <Button
             type="primary"
