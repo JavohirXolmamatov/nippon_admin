@@ -129,6 +129,7 @@ function Category() {
     }
   };
 
+  //Edit category
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -164,9 +165,9 @@ function Category() {
             submitTitle={addCategory}
             modalTitle={"Add Category"}
           >
-            <Input title={"Category Name (EN)"} name={"en"} />
-            <Input title={"Category Name (RU)"} name={"ru"} />
-            <Input title={"Category Name (DE)"} name={"de"} />
+            <Input title={"Category Name (EN)"} name={"en"} required={true} />
+            <Input title={"Category Name (RU)"} name={"ru"} required={true} />
+            <Input title={"Category Name (DE)"} name={"de"} required={true} />
           </Modal>
         )}
       </div>
@@ -186,6 +187,7 @@ function Category() {
               onChange={(e) =>
                 setEditData({ ...editData, name_en: e.target.value })
               }
+              required={true}
             />
             <Input
               title={"Category Name (RU)"}
@@ -194,6 +196,7 @@ function Category() {
               onChange={(e) =>
                 setEditData({ ...editData, name_ru: e.target.value })
               }
+              required={true}
             />
             <Input
               title={"Category Name (DE)"}
@@ -202,6 +205,7 @@ function Category() {
               onChange={(e) =>
                 setEditData({ ...editData, name_de: e.target.value })
               }
+              required={true}
             />
           </Modal>
         )}
