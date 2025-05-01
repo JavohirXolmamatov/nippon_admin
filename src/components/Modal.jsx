@@ -10,7 +10,7 @@ function Modal({
   };
   return (
     <div className="absolute bg-black/20 top-0 left-0 w-full h-full flex justify-center items-center">
-      <div className="w-[700px] h-[400px] bg-white rounded-md p-8">
+      <div className="w-[700px] min-h-[400px] bg-white rounded-md p-8">
         <div className="flex justify-between items-center text-xl font-bold">
           <span>{modalTitle}</span>
           <button onClick={closeModal}>X</button>

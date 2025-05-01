@@ -2,26 +2,29 @@ import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getColorFailure,
-  getColorStart,
-  getColorSuccess,
-} from "../slice/color";
+  getContactFailure,
+  getContactStart,
+  getContactSuccess,
+} from "../slice/contact";
 import colorService from "../service/color";
 import { Isloading, Modal } from "../components";
 import Input from "../components/ui/Input";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
+import contactService from "../service/contact";
 
 function Contact() {
   const dispatch = useDispatch();
   const token = localStorage.getItem("Token");
-  const { color, isLoading } = useSelector((state) => state.color);
+  const { contact, isLoading } = useSelector((state) => state.contact);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [editData, setEditData] = useState({
-    color_en: "",
-    color_ru: "",
-    color_de: "",
+    phone_number: "",
+    email: "",
+    address_en: "",
+    address_ru: "",
+    address_de: "",
   });
   const [editId, setEditId] = useState(null);
 
@@ -32,25 +35,25 @@ function Contact() {
     setEditModalIsOpen(true);
   }
 
-  // get color
-  const getColor = async () => {
-    dispatch(getColorStart());
+  // get contact
+  const getContact = async () => {
+    dispatch(getContactStart());
     try {
-      const res = await colorService.getColor();
-      dispatch(getColorSuccess(res?.data));
+      const res = await contactService.getContact();
+      dispatch(getContactSuccess(res?.data));
     } catch (error) {
-      dispatch(getColorFailure(error?.message));
+      dispatch(getContactFailure(error?.message));
     }
   };
 
   useEffect(() => {
-    getColor();
+    getContact();
   }, []);
 
-  // delete color
-  const deleteColor = async (id) => {
+  // delete contact
+  const deleteContact = async (id) => {
     try {
-      const res = await colorService.deleteColor(id, token);
+      const res = await contactService.deleteContact(id, token);
       Toastify({
         text: res?.data?.message,
         duration: 3000,
@@ -64,7 +67,7 @@ function Contact() {
         },
         onClick: function () {},
       }).showToast();
-      getColor();
+      getContact();
     } catch (error) {
       console.log(error);
       Toastify({
@@ -83,17 +86,20 @@ function Contact() {
     }
   };
 
-  // create color
-  const addColor = async (e) => {
+  // create contact
+  const addContact = async (e) => {
     e.preventDefault();
+
     const data = {
-      color_en: e.target.color_en.value,
-      color_de: e.target.color_de.value,
-      color_ru: e.target.color_ru.value,
+      phone_number: e.target.phone_number.value,
+      email: e.target.email.value,
+      address_en: e.target.address_en.value,
+      address_ru: e.target.address_ru.value,
+      address_de: e.target.address_de.value,
     };
     try {
-      const res = await colorService.postColor(data, token);
-      getColor();
+      const res = await contactService.postContact(data, token);
+      getContact();
       Toastify({
         text: "Successfully created",
         duration: 3000,
@@ -101,11 +107,11 @@ function Contact() {
         close: true,
         gravity: "top",
         position: "right",
-        stopOnFocus: true, // Prevents dismissing of toast on hover
+        stopOnFocus: true,
         style: {
           background: "linear-gradient(to right, #00b09b, #96c93d)",
         },
-        onClick: function () {}, // Callback after click
+        onClick: function () {},
       }).showToast();
       e.target.reset();
     } catch (error) {
@@ -113,14 +119,16 @@ function Contact() {
     }
   };
 
-  // get color id
-  const editColor = async (id) => {
+  // get contact id
+  const editContact = async (id) => {
     try {
-      const res = await colorService.getIdColor(id);
+      const res = await contactService.getIdContact(id);
       setEditData({
-        color_en: res?.data?.color_en || "",
-        color_de: res?.data?.color_de || "",
-        color_ru: res?.data?.color_ru || "",
+        phone_number: res?.data?.phone_number || "",
+        email: res?.data?.email || "",
+        address_en: res?.data?.address_en || "",
+        address_ru: res?.data?.address_ru || "",
+        address_de: res?.data?.address_de || "",
       });
       editOpenModal();
       setEditId(id);
@@ -129,11 +137,11 @@ function Contact() {
     }
   };
 
-  //Edit color
+  //Edit contact
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await colorService.patchColor(editId, editData, token);
+      const res = await contactService.patchContact(editId, editData, token);
       Toastify({
         text: "Color updated successfully",
         duration: 3000,
@@ -141,7 +149,7 @@ function Contact() {
         position: "right",
       }).showToast();
       setEditModalIsOpen(false);
-      getColor();
+      getContact();
     } catch (error) {
       console.log(error.message);
     }
@@ -160,13 +168,20 @@ function Contact() {
           <Modal
             modalIsOpen={modalIsOpen}
             setModalIsOpen={setModalIsOpen}
-            buttonTitle={"Add Colors"}
-            submitTitle={addColor}
-            modalTitle={"Add Colors"}
+            buttonTitle={"Add Contact"}
+            submitTitle={addContact}
+            modalTitle={"Add Contact"}
           >
-            <Input title={"Color (EN)"} name={"color_en"} required={true} />
-            <Input title={"Color (RU)"} name={"color_ru"} required={true} />
-            <Input title={"Color (DE)"} name={"color_de"} required={true} />
+            <Input
+              title={"phone_number"}
+              type="number"
+              name={"phone_number"}
+              required={true}
+            />
+            <Input title={"Email"} name={"email"} required={true} />
+            <Input title={"address_en"} name={"address_en"} required={true} />
+            <Input title={"address_ru"} name={"address_ru"} required={true} />
+            <Input title={"address_de"} name={"address_de"} required={true} />
           </Modal>
         )}
       </div>
@@ -175,34 +190,52 @@ function Contact() {
           <Modal
             modalIsOpen={editModalIsOpen}
             setModalIsOpen={setEditModalIsOpen}
-            buttonTitle={"Edit Color"}
+            buttonTitle={"Edit Contact"}
             submitTitle={handleEditSubmit}
-            modalTitle={"Edit Color"}
+            modalTitle={"Edit Contact"}
           >
             <Input
-              title={"Color (EN)"}
-              name={"color_en"}
-              value={editData.color_en}
+              title={"phone_number"}
+              name={"phone_number"}
+              value={editData.phone_number}
               onChange={(e) =>
-                setEditData({ ...editData, color_en: e.target.value })
+                setEditData({ ...editData, phone_number: e.target.value })
               }
               required={true}
             />
             <Input
-              title={"Color (RU)"}
-              name={"color_ru"}
-              value={editData.color_ru}
+              title={"email"}
+              name={"email"}
+              value={editData.email}
               onChange={(e) =>
-                setEditData({ ...editData, color_ru: e.target.value })
+                setEditData({ ...editData, email: e.target.value })
               }
               required={true}
             />
             <Input
-              title={"Color (DE)"}
-              name={"color_de"}
-              value={editData.color_de}
+              title={"address_en"}
+              name={"address_en"}
+              value={editData.address_en}
               onChange={(e) =>
-                setEditData({ ...editData, color_de: e.target.value })
+                setEditData({ ...editData, address_en: e.target.value })
+              }
+              required={true}
+            />
+            <Input
+              title={"address_ru"}
+              name={"address_ru"}
+              value={editData.address_ru}
+              onChange={(e) =>
+                setEditData({ ...editData, address_ru: e.target.value })
+              }
+              required={true}
+            />
+            <Input
+              title={"address_de"}
+              name={"address_de"}
+              value={editData.address_de}
+              onChange={(e) =>
+                setEditData({ ...editData, address_de: e.target.value })
               }
               required={true}
             />
@@ -213,13 +246,19 @@ function Contact() {
       <table className="table-fixed w-full border-collapse border border-black/10">
         <thead className="bg-black/20 h-12">
           <tr>
-            <th className="w-[5%] border border-black/10 px-2">№</th>
-            <th className="w-[18%] border border-black/10 px-2">
+            <th className="w-[4%] border border-black/10 px-2">№</th>
+            <th className="w-[16%] border border-black/10 px-2">
               Phone Number
             </th>
-            <th className="w-[18%] border border-black/10 px-2">Email</th>
-            <th className="w-[18%] border border-black/10 px-2">
+            <th className="w-[20%] border border-black/10 px-2">Email</th>
+            <th className="w-[20%] border border-black/10 px-2">
               Address (EN)
+            </th>
+            <th className="w-[20%] border border-black/10 px-2">
+              Address (RU)
+            </th>
+            <th className="w-[20%] border border-black/10 px-2">
+              Address (DE)
             </th>
             <th className="w-[11%] border border-black/10 px-2">Actions</th>
           </tr>
@@ -235,19 +274,25 @@ function Contact() {
               </td>
             </tr>
           ) : (
-            color.map((item, index) => (
+            contact.map((item, index) => (
               <tr className="hover:bg-gray-100 h-16" key={index}>
                 <td className="border border-black/10 px-2 text-center">
                   {index + 1}
                 </td>
                 <td className="border border-black/10 px-2 text-center">
-                  {item?.color_en}
+                  {item?.phone_number}
                 </td>
                 <td className="border border-black/10 px-2 text-center">
-                  {item?.color_ru}
+                  {item?.email}
                 </td>
                 <td className="border border-black/10 px-2 text-center">
-                  {item?.color_de}
+                  {item?.address_en}
+                </td>
+                <td className="border border-black/10 px-2 text-center">
+                  {item?.address_ru}
+                </td>
+                <td className="border border-black/10 px-2 text-center">
+                  {item?.address_de}
                 </td>
                 <td className="border border-black/10 px-2">
                   <div className="flex items-center justify-center gap-2">
@@ -255,7 +300,7 @@ function Contact() {
                       type="primary"
                       size="large"
                       onClick={(e) => {
-                        editColor(item.id);
+                        editContact(item.id);
                       }}
                     >
                       Edit
@@ -264,7 +309,7 @@ function Contact() {
                       danger
                       size="large"
                       onClick={() => {
-                        deleteColor(item?.id);
+                        deleteContact(item?.id);
                       }}
                     >
                       Delete
