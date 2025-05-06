@@ -29,7 +29,7 @@ function Main() {
 
   return (
     <div className="flex bg-black/10 relative">
-      <nav className="w-[15%] bg-[#1E2939] h-screen flex flex-col justify-start items-center gap-6 text-white font-medium py-10">
+      <nav className="w-[12%] bg-[#1E2939] h-screen flex flex-col justify-start items-center gap-6 text-white font-medium py-10">
         <img
           src={navLogo}
           alt={navLogo}
@@ -50,7 +50,7 @@ function Main() {
           </NavLink>
         ))}
       </nav>
-      <main className="w-[85%] h-screen px-4 py-6">
+      <main className="w-[88%] h-screen px-4 py-6 overflow-scroll">
         <div className="text-end my-8 ">
           <Button
             type="primary"
@@ -62,7 +62,7 @@ function Main() {
             Log Out
           </Button>
         </div>
-        <section className="bg-white rounded-md p-5">
+        <section className="bg-white rounded-md p-5 h-auto">
           <Outlet />
         </section>
       </main>

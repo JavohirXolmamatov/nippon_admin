@@ -17,12 +17,19 @@ function Input({
       <input
         type={type}
         name={name}
+        {...(type === "file"
+          ? {}
+          : {
+              value,
+              checked,
+            })}
         value={value}
         checked={checked}
         onChange={onChange}
         placeholder={placeholder}
         className={`border  w-${witdh} ml-auto rounded-md p-2 text-sm text-start`}
         required={required}
+        accept={type === "file" ? "image/*" : undefined}
       />
     </label>
   );
