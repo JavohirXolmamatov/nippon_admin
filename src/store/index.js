@@ -7,6 +7,7 @@ import colorReducer from "../slice/color";
 import contactReducer from "../slice/contact";
 import faqReducer from "../slice/faq";
 import teamReducer from "../slice/team";
+import newsReducer from "../slice/news";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     contact: contactReducer,
     faq: faqReducer,
     team: teamReducer,
+    news: newsReducer,
     devTools: process.env.NODE_ENV !== "production",
   },
 });
