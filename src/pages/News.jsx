@@ -6,7 +6,6 @@ import Input from "../components/ui/Input";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { getNewsFailure, getNewsStart, getNewsSuccess } from "../slice/news";
-import teamService from "../service/team";
 import newsService from "../service/news";
 function News() {
   const dispatch = useDispatch();
@@ -48,7 +47,7 @@ function News() {
     getNews();
   }, []);
 
-  // delete Team
+  // delete News
   const deleteNews = async (id) => {
     try {
       const res = await newsService.deleteNews(id, token);
@@ -120,7 +119,7 @@ function News() {
     }
   };
 
-  // get Team id
+  // get News id
   const editNews = async (id) => {
     try {
       const res = await newsService.getIdNews(id);
@@ -140,7 +139,7 @@ function News() {
     }
   };
 
-  //Edit team
+  //Edit News
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -208,9 +207,9 @@ function News() {
           <Modal
             modalIsOpen={editModalIsOpen}
             setModalIsOpen={setEditModalIsOpen}
-            buttonTitle={"Edit Team"}
+            buttonTitle={"Edit News"}
             submitTitle={handleEditSubmit}
-            modalTitle={"Edit Team"}
+            modalTitle={"Edit News"}
           >
             <Input
               title={"image"}

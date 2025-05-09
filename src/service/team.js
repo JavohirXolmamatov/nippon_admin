@@ -51,15 +51,18 @@ const teamService = {
   },
 
   async patchTeam(id, data, token) {
+    console.log(data);
+
     try {
       const formData = new FormData();
-      if (data.file) {
-        formData.append("file", data.file);
+      console.log(formData, "formdataa");
+      if (data?.file) {
+        formData.append("file", data?.file);
       }
-      formData.append("full_name", data.full_name || "");
-      formData.append("position_de", data.position_de || "");
-      formData.append("position_ru", data.position_ru || "");
-      formData.append("position_en", data.position_en || "");
+      formData.append("full_name", data?.full_name || "");
+      formData.append("position_de", data?.position_de || "");
+      formData.append("position_ru", data?.position_ru || "");
+      formData.append("position_en", data?.position_en || "");
 
       const req = await axios.patch(
         `https://back.ifly.com.uz/api/team-section/${id}`,

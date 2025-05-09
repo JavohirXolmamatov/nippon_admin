@@ -20,6 +20,28 @@ import {
   Sizes,
   Team,
 } from "./pages";
+import {
+  getProductFailure,
+  getProductStart,
+  getProductSuccess,
+} from "./slice/product";
+import productService from "./service/product";
+import {
+  getCategoryFailure,
+  getCategoryStart,
+  getCategorySuccess,
+} from "./slice/category";
+import categoryService from "./service/category";
+import {
+  getDiscountFailure,
+  getDiscountStart,
+  getDiscountSuccess,
+} from "./slice/discount";
+import discountService from "./service/discount";
+import { getSizeFailure, getSizeStart, getSizeSuccess } from "./slice/size";
+import sizeService from "./service/size";
+import { getColorFailure, getColorStart, getColorSuccess } from "./slice/color";
+import colorService from "./service/color";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,8 +64,71 @@ function App() {
       );
     }
   };
+
+  // get product
+  const getProduct = async () => {
+    dispatch(getProductStart());
+    try {
+      const res = await productService.getProduct();
+      dispatch(getProductSuccess(res?.data?.products));
+    } catch (error) {
+      dispatch(getProductFailure(error?.message));
+    }
+  };
+
+  // get category
+  const getCategory = async () => {
+    dispatch(getCategoryStart());
+    try {
+      const res = await categoryService.getCategory();
+      dispatch(getCategorySuccess(res?.data));
+    } catch (error) {
+      dispatch(getCategoryFailure(error?.message));
+    }
+  };
+
+  // get Discount
+  const getDiscount = async () => {
+    dispatch(getDiscountStart());
+    try {
+      const res = await discountService.getDiscount();
+      dispatch(getDiscountSuccess(res?.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getDiscountFailure(error?.message));
+    }
+  };
+
+  // get sizes
+  const getSizes = async () => {
+    dispatch(getSizeStart());
+    try {
+      const res = await sizeService.getSize();
+      dispatch(getSizeSuccess(res?.data));
+    } catch (error) {
+      console.log(error);
+      dispatch(getSizeFailure(error?.message));
+    }
+  };
+
+  // get color
+  const getColor = async () => {
+    dispatch(getColorStart());
+    try {
+      const res = await colorService.getColor();
+      dispatch(getColorSuccess(res?.data));
+    } catch (error) {
+      dispatch(getColorFailure(error?.message));
+    }
+  };
+
   useEffect(() => {
     getUser();
+    getProduct();
+    getCategory();
+    getDiscount();
+    getSizes();
+    getColor();
   }, []);
 
   return (

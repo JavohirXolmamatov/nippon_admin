@@ -117,7 +117,7 @@ function Team() {
   const editTeam = async (id) => {
     try {
       const res = await teamService.getIdTeam(id);
-      console.log(res);
+      // console.log(res);
 
       setEditData({
         file: res?.data?.image || "",
