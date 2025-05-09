@@ -108,6 +108,7 @@ function Team() {
         onClick: function () {},
       }).showToast();
       e.target.reset();
+      setModalIsOpen(false);
     } catch (error) {
       console.log(error.message);
     }
@@ -117,8 +118,6 @@ function Team() {
   const editTeam = async (id) => {
     try {
       const res = await teamService.getIdTeam(id);
-      // console.log(res);
-
       setEditData({
         file: res?.data?.image || "",
         full_name: res?.data?.full_name || "",

@@ -114,6 +114,7 @@ function Contact() {
         onClick: function () {},
       }).showToast();
       e.target.reset();
+      setModalIsOpen(false);
     } catch (error) {
       console.log(error.message);
     }
